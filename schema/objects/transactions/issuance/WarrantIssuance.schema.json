@@ -1,0 +1,74 @@
+{
+  "$id": "https://jocf.startupstandard.org/jocf/main/schema/objects/transactions/issuance/WarrantIssuance.schema.json",
+  "title": "Object - 新株予約権発行トランザクション",
+  "description": "新株予約権の発行に関するトランザクション",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/objects/Object.schema.json"
+    },
+    {
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/objects/transactions/Transaction.schema.json"
+    },
+    {
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/objects/transactions/issuance/Issuance.schema.json"
+    }
+  ],
+  "properties": {
+    "object_type": {
+      "const": "TX_WARRANT_ISSUANCE"
+    },
+    "quantity": {
+      "description": "発行される新株予約権の個数",
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Numeric.schema.json"
+    },
+    "exercise_price": {
+      "description": "新株予約権1個あたりの行使時払込額",
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Monetary.schema.json"
+    },
+    "purchase_price": {
+      "description": "新株予約権1個あたりの発行価額",
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Monetary.schema.json"
+    },
+    "total_purchace_amount": {
+      "description": "新株予約権の購入時払込額合計(個数 x 発行価額)",
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Monetary.schema.json"
+    },
+    "exercise_triggers": {
+      "title": "新株予約権行使条件",
+      "description": "新株予約権の更新に関する条件の一覧",
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/conversion_triggers/ElectiveConversionOnConditionTrigger.schema.json"
+          },
+          {
+            "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/conversion_triggers/AutomaticConversionOnConditionTrigger.schema.json"
+          }
+        ]
+      }
+    },
+    "series_name" : {
+      "description": "新株予約権発行シリーズ名",
+      "type": "string"
+    },
+    "contract_execution_date": {
+      "description": "契約締結日",
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Date.schema.json"
+    },
+    "id": {},
+    "comments": {},
+    "date": {},
+    "securityholder_id": {}
+  },
+  "required": [
+    "id",
+    "date",
+    "securityholder_id",
+    "quantity",
+    "exercise_price",
+    "purchase_price",
+    "exercise_triggers"
+  ]
+}
