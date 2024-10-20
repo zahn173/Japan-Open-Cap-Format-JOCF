@@ -80,6 +80,28 @@
       "description": "専属的合意管轄裁判所",
       "type": "string"
     },
+    "ranking_clause": {
+      "description": "債務順位。新株予約権の債務順位を記述する法的な文言",
+      "type": "string"
+    },
+    "mandatory_redemption_attributes": {
+      "description": "発行体の強制償還義務に関する項目",
+      "type": "object",
+      "properties": {
+        "mandatory_redemption_trigger": {
+          "description": "強制償還条件。強制償還条項が発動する条件を記述する法的な文言",
+          "type": "string"
+        },
+        "mandatory_redemption_multiple": {
+          "description": "強制償還倍率。発行体は、新株予約権1個ごとに、発行価額に対して当該倍率をかけた金額を支払う。",
+          "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Ratio.schema.json"
+        }
+      }
+    },
+    "has_transfer_restrictions": {
+      "description": "譲渡制限の有無",
+      "type": "boolean"
+    },
     "id": {},
     "comments": {},
     "date": {},
