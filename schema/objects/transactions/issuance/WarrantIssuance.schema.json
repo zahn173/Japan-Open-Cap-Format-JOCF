@@ -49,7 +49,7 @@
         ]
       }
     },
-    "series_name" : {
+    "series_name": {
       "description": "新株予約権発行シリーズ名",
       "type": "string"
     },
@@ -57,6 +57,28 @@
       "description": "払込期日",
       "type": "string",
       "format": "date"
+    },
+    "participation_cap_multiple": {
+      "description": "参加上限額倍率",
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Ratio.schema.json"
+    },
+    "most_favored_nation_clause": {
+      "description": "最恵待遇条項",
+      "type": "object",
+      "properties": {},
+      "required": []
+    },
+    "transfer_restrictions_on_securityholder": {
+      "description": "証券保有者の譲渡制限に関する法的文言",
+      "type": "string"
+    },
+    "governing_law": {
+      "description": "準拠法",
+      "type": "string"
+    },
+    "exclusive_jurisdiction": {
+      "description": "専属的合意管轄裁判所",
+      "type": "string"
     },
     "id": {},
     "comments": {},
