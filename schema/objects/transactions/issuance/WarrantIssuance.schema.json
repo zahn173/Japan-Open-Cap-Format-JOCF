@@ -53,9 +53,10 @@
       "description": "新株予約権発行シリーズ名",
       "type": "string"
     },
-    "contract_execution_date": {
-      "description": "契約締結日",
-      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Date.schema.json"
+    "payment_due_date": {
+      "description": "払込期日",
+      "type": "string",
+      "format": "date"
     },
     "id": {},
     "comments": {},
