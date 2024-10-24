@@ -102,6 +102,10 @@
       "description": "譲渡制限の有無",
       "type": "boolean"
     },
+    "representations_and_warranties_by_issuing_company" : {
+      "description": "発行会社による表明および保証",
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/objects/SelfRepresentationsAndWarranties.schema.json"
+    },
     "id": {},
     "comments": {},
     "date": {},
