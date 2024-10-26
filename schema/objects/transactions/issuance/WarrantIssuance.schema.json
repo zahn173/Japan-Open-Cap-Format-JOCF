@@ -104,7 +104,11 @@
     },
     "representations_and_warranties_by_issuing_company" : {
       "description": "発行会社による表明および保証",
-      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/objects/SelfRepresentationsAndWarranties.schema.json"
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/types/IssuerRepresentationsAndWarranties.schema.json"
+    },
+    "self_representations_and_warranties_by_investor": {
+      "description": "投資家による発行会社に対する投資家自身に関する事項の表明および保証",
+      "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/types/InvestorSelfRepresentationsAndWarranties.schema.json"
     },
     "id": {},
     "comments": {},
