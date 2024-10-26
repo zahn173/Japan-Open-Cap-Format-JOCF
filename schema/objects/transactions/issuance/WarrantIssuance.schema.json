@@ -49,7 +49,7 @@
         ]
       }
     },
-    "anti_dilution_protection_triggers" : {
+    "anti_dilution_protection_triggers": {
       "title": "新株予約権の希薄化防止条項",
       "description": "新株予約権の希薄化防止条項の一覧",
       "type": "array",
@@ -74,11 +74,44 @@
       "description": "参加上限額倍率",
       "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Ratio.schema.json"
     },
-    "most_favored_nation_clause": {
-      "description": "最恵待遇条項",
-      "type": "object",
-      "properties": {},
-      "required": []
+    "investor_roles_and_authorities": {
+      "description": "投資家の種類と権限",
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "investor_type_name": {
+              "description": "投資家の種類名",
+              "type": "string"
+            },
+            "investor_type_condition": {
+              "description": "当該投資家種類とみなされるための条件",
+              "type": "string"
+            },
+            "most_favored_nation_clause": {
+              "description": "最恵待遇条項",
+              "type": "string"
+            },
+            "information_request_rights": {
+              "description": "当該投資家種類が持つ情報請求権",
+              "type": "string"
+            },
+            "preemptive_rights": {
+              "description": "当該投資家種類が持つ優先引受権",
+              "type": "string"
+            },
+            "additional_rights": {
+              "description": "その他の権利",
+              "type": "string"
+            }
+          },
+          "required": [
+            "investor_type_name",
+            "investor_type_condition"
+          ]
+        }
+      ]
     },
     "transfer_restrictions_on_securityholder": {
       "description": "証券保有者の譲渡制限に関する法的文言",
@@ -114,7 +147,7 @@
       "description": "譲渡制限の有無",
       "type": "boolean"
     },
-    "representations_and_warranties_by_issuing_company" : {
+    "representations_and_warranties_by_issuing_company": {
       "description": "発行会社による表明および保証",
       "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/types/IssuerRepresentationsAndWarranties.schema.json"
     },
