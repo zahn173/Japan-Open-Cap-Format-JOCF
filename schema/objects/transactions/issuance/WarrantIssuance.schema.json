@@ -39,12 +39,24 @@
       "description": "新株予約権の更新に関する条件の一覧",
       "type": "array",
       "items": {
-        "anyOf": [
+        "oneOf": [
           {
             "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/conversion_triggers/ElectiveConversionOnConditionTrigger.schema.json"
           },
           {
             "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/conversion_triggers/AutomaticConversionOnConditionTrigger.schema.json"
+          }
+        ]
+      }
+    },
+    "anti_dilution_protection_triggers" : {
+      "title": "新株予約権の希薄化防止条項",
+      "description": "新株予約権の希薄化防止条項の一覧",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/conversion_triggers/AntiDilutionProtectionTrigger.schema.json"
           }
         ]
       }
@@ -109,6 +121,14 @@
     "self_representations_and_warranties_by_investor": {
       "description": "投資家による発行会社に対する投資家自身に関する事項の表明および保証",
       "$ref": "https://jocf.startupstandard.org/jocf/main/schema/primitives/types/InvestorSelfRepresentationsAndWarranties.schema.json"
+    },
+    "obligation_of_investor_to_execute_securityholders_agreement": {
+      "description": "投資家の株主間契約を含む証券保有者間合意/契約への同意/締結義務",
+      "type": "string"
+    },
+    "obligation_of_investor_to_cooperate_on_amendment": {
+      "description": "投資家の投資契約の変更及び放棄への協力義務",
+      "type": "string"
     },
     "id": {},
     "comments": {},
