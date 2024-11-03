@@ -49,17 +49,9 @@
         ]
       }
     },
-    "anti_dilution_protection_triggers": {
-      "title": "新株予約権の希薄化防止条項",
-      "description": "新株予約権の希薄化防止条項の一覧",
-      "type": "array",
-      "items": {
-        "oneOf": [
-          {
-            "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/conversion_triggers/AntiDilutionProtectionTrigger.schema.json"
-          }
-        ]
-      }
+    "anti_dilution_protection_condition": {
+      "title": "新株予約権に関する希薄化防止条項",
+      "type": "string"
     },
     "series_name": {
       "description": "新株予約権発行シリーズ名",
@@ -89,10 +81,6 @@
               "description": "当該投資家種類とみなされるための条件",
               "type": "string"
             },
-            "most_favored_nation_clause": {
-              "description": "最恵待遇条項",
-              "type": "string"
-            },
             "information_request_rights": {
               "description": "当該投資家種類が持つ情報請求権",
               "type": "string"
@@ -112,6 +100,10 @@
           ]
         }
       ]
+    },
+    "most_favored_nation_clause": {
+      "description": "最恵待遇条項",
+      "type": "string"
     },
     "transfer_restrictions_on_securityholder": {
       "description": "証券保有者の譲渡制限に関する法的文言",
@@ -142,10 +134,6 @@
           "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/Ratio.schema.json"
         }
       }
-    },
-    "has_transfer_restrictions": {
-      "description": "譲渡制限の有無",
-      "type": "boolean"
     },
     "representations_and_warranties_by_issuing_company": {
       "description": "発行会社による表明および保証",
