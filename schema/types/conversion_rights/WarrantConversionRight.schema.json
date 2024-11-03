@@ -1,7 +1,7 @@
 {
-  "$id": "https://jocf.startupstandard.org/jocf/schema/types/conversion_rights/StockClassConversionRight.schema.json",
-  "title": "Type - Stock Class Conversion Rights",
-  "description": "ある株式クラスから別の株式クラスへの転換を表現するもの",
+  "$id": "https://jocf.startupstandard.org/jocf/main/schema/types/conversion_rights/WarrantConversionRight.schema.json",
+  "title": "Type - Warrant Conversion Rights",
+  "description": "新株予約権から株式への転換権を表現するクラス",
   "type": "object",
   "allOf": [
     {
@@ -10,9 +10,10 @@
   ],
   "properties": {
     "type": {
-      "const": "STOCK_CLASS_CONVERSION_RIGHT"
+      "const": "WARRANT_CONVERSION_RIGHT"
     },
     "conversion_mechanism": {
+      "description": "What conversion mechanism applies to calculate the number of resulting stock class shares?",
       "oneOf": [
         {
           "$ref": "https://jocf.startupstandard.org/jocf/main/schema/types/conversion_mechanisms/RatioConversionMechanism.schema.json"
