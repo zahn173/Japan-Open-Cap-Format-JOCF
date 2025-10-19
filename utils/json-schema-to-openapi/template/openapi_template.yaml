@@ -1,0 +1,7 @@
+openapi: 3.2.0
+info:
+  title: "JOCF Open Cap Table Template"
+  version: "1.0.0"
+paths: {}
+components:
+  schemas:
