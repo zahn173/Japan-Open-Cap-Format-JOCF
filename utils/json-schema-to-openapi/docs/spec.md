@@ -13,87 +13,89 @@ JSON Schema to OpenAPIスクリプトの実装ディレクトリは `utils/json-
 <returns/>
 
 ## JSON Schema to OpenAPIの処理の流れ
-<steps>
-    <step name="1.作業ファイルの作成">
-        以下のOpenAPIテンプレートファイルを作業フォルダにコピー(既に存在する場合は上書き)して、作業ファイル(work_file)を作成する。
-        `utils/json-schema-to-openapi/template/openapi_template.yaml`
-        作業ファイルのパスは `local/tmp/json-schema-to-openapi/jocf_openapi.yaml` とする。
-    </step>
-    <step name="2.スキーマ準備">
-        SchemaLoader(loader)の新規生成 + スキーマ読み込み `${loader}.load_all_schemas` を行なう。
-        SchemaLoaderは `utils/json-validator/validator/schema_loader.py` を再利用する。
-    </step>
-    <step name="3.file_type_listの取得">
-        ファイル種別一覧(file_type_list:List[file_type])を取得する。
-        `file_type_list = ${loader}.get_file_types()`
-    </step>
-    <step name="4.各種変数を初期化">
-        以下の変数を初期化
-        - ref_schema_list:List[schema_id:string]
-        - root_indent=3
-    </step>
-    <for each ${file_type_list} file_type>
-        <step name="5-a.ファイルのスキーマを取得">
-            ファイルスキーマ(file_schema)を取得
-            <formula> file_schema=${loader}.get_file_schema(${file_type}) </formula>
+<main>
+    <steps>
+        <step name="1.作業ファイルの作成">
+            以下のOpenAPIテンプレートファイルを作業フォルダにコピー(既に存在する場合は上書き)して、作業ファイル(work_file)を作成する。
+            `utils/json-schema-to-openapi/template/openapi_template.yaml`
+            作業ファイルのパスは `local/tmp/json-schema-to-openapi/jocf_openapi.yaml` とする。
         </step>
-        <step name="5-b.ファイルスキーマをYAML形式に変換 + 状態を更新">
-            ```
-            // スキーマキーを取得
-            schema_key = ${file_schema}.get("$id")
-            // スキーマ名を文字列に追加
-            yaml_string += to_yaml_field_with_indent(key=${schema_key}, indent=2)
-            // ファイルスキーマをYAML文字列に変換 + 参照スキーマを取得
-            (_str:schema_str,_added:added_ref_schema_list) = json_schema_to_yaml_string(schema=${file_schema}, base_indent=${root_indent}, ref_schema_list=${ref_schema_list}.copy())
-            // 状態の更新
-            yaml_string += ${_str}
-            ref_schema_list += ${_added}
-            ```
+        <step name="2.スキーマ準備">
+            SchemaLoader(loader)の新規生成 + スキーマ読み込み `${loader}.load_all_schemas` を行なう。
+            SchemaLoaderは `utils/json-validator/validator/schema_loader.py` を再利用する。
         </step>
-    </for>
-    <step name="6-a.未処理の参照スキーマキューを初期化">
-        未処理参照スキーマキュー(waiting_ref_schema_queue:Queue[schema_id:string])を、参照スキーマ一覧で初期化
-        ```
-        waiting_ref_schema_queue = new Queue[${ref_schema_list}]
-        ```
-    </step>
-    <while `${waiting_ref_schema_queue}.isEmpty==false`>
-        <step name="7-a.処理対象の参照スキーマを取得">
-            処理対象の参照スキーマ(ref_schema)を、スキーマローダーから取得
+        <step name="3.file_type_listの取得">
+            ファイル種別一覧(file_type_list:List[file_type])を取得する。
+            `file_type_list = ${loader}.get_file_types()`
+        </step>
+        <step name="4.各種変数を初期化">
+            以下の変数を初期化
+            - ref_schema_list:List[schema_id:string]
+            - root_indent=3
+        </step>
+        <for each ${file_type_list} file_type>
+            <step name="5-a.ファイルのスキーマを取得">
+                ファイルスキーマ(file_schema)を取得
+                <formula> file_schema=${loader}.get_file_schema(${file_type}) </formula>
+            </step>
+            <step name="5-b.ファイルスキーマをYAML形式に変換 + 状態を更新">
+                ```
+                // スキーマキーを取得
+                schema_key = ${file_schema}.get("$id")
+                // スキーマ名を文字列に追加
+                yaml_string += to_yaml_field_with_indent(key=${schema_key}, indent=2)
+                // ファイルスキーマをYAML文字列に変換 + 参照スキーマを取得
+                (_str:schema_str,_added:added_ref_schema_list) = json_schema_to_yaml_string(schema=${file_schema}, base_indent=${root_indent}, ref_schema_list=${ref_schema_list}.copy())
+                // 状態の更新
+                yaml_string += ${_str}
+                ref_schema_list += ${_added}
+                ```
+            </step>
+        </for>
+        <step name="6.未処理の参照スキーマキューを初期化">
+            未処理参照スキーマキュー(waiting_ref_schema_queue:Queue[schema_id:string])を、参照スキーマ一覧で初期化
             ```
-            // 処理対象のスキーマIDをデキュー
-            ref_schema_id = ${waiting_ref_schema_queue}.deque()
-            // 処理対象のスキーマを取得
-            ref_schema = ${loader}.get_schema_by_id(schema_id=${ref_schema_id})
+            waiting_ref_schema_queue = new Queue[${ref_schema_list}]
             ```
         </step>
-        <step name="7-b.参照スキーマをYAML文字列に変換+状態を更新">
+        <while `${waiting_ref_schema_queue}.isEmpty==false`>
+            <step name="7-a.処理対象の参照スキーマを取得">
+                処理対象の参照スキーマ(ref_schema)を、スキーマローダーから取得
+                ```
+                // 処理対象のスキーマIDをデキュー
+                ref_schema_id = ${waiting_ref_schema_queue}.deque()
+                // 処理対象のスキーマを取得
+                ref_schema = ${loader}.get_schema_by_id(schema_id=${ref_schema_id})
+                ```
+            </step>
+            <step name="7-b.参照スキーマをYAML文字列に変換+状態を更新">
+                ```
+                // 参照スキーマのスキーマキーを取得
+                schema_key = ${ref_schema}.get("$id")
+                // スキーマキーをYAML文字列に追加
+                yaml_string += to_yaml_field_with_indent(key=${schema_key}, indent=2)
+                // 参照スキーマをYAML文字列に変換 + 参照スキーマを取得
+                (_str:schema_str,_added:added_ref_schema_list) = json_schema_to_yaml_string(schema=${ref_schema}, base_indent=${root_indent}, ref_schema_list=${ref_schema_list}.copy())
+                // 状態の更新
+                yaml_string += ${_str}
+                ref_schema_list += ${_added}
+                waiting_ref_schema_queue = ${waiting_ref_schema_queue}.enqueue(${_added}) // 処理対象のキューに追加
+                ```
+            </step>
+        </while>
+        <step name="8.YAMLファイルを出力">
             ```
-            // 参照スキーマのスキーマキーを取得
-            schema_key = ${ref_schema}.get("$id")
-            // スキーマキーをYAML文字列に追加
-            yaml_string += to_yaml_field_with_indent(key=${schema_key}, indent=2)
-            // 参照スキーマをYAML文字列に変換 + 参照スキーマを取得
-            (_str:schema_str,_added:added_ref_schema_list) = json_schema_to_yaml_string(schema=${ref_schema}, base_indent=${root_indent}, ref_schema_list=${ref_schema_list}.copy())
-            // 状態の更新
-            yaml_string += ${_str}
-            ref_schema_list += ${_added}
-            waiting_ref_schema_queue = ${waiting_ref_schema_queue}.enqueue(${_added}) // 処理対象のキューに追加
+            // 作業ファイルに書き込み
+            ${work_file}.append(${yaml_string})
+            // openapi_spec_validatorでYAMLファイルを検証
+            (spec_dict, spec_url) = openapi_spec_validator.readers.read_from_filename(${work_file})
+            openapi_spec_validator.validate_spec(spec_dict)
+            // 検証で問題なければ出力先にコピー
+            move(${work_file}, ${output_path})
             ```
         </step>
-    </while>
-    <step name="8.YAMLファイルを出力">
-        ```
-        // 作業ファイルに書き込み
-        ${work_file}.append(${yaml_string})
-        // openapi_spec_validatorでYAMLファイルを検証
-        (spec_dict, spec_url) = openapi_spec_validator.readers.read_from_filename(${work_file})
-        openapi_spec_validator.validate_spec(spec_dict)
-        // 検証で問題なければ出力先にコピー
-        move(${work_file}, ${output_path})
-        ```
-    </step>
-</steps>
+    </steps>
+</main>
 <functions>
     <function name="json_schema_to_yaml_string" description="JSONスキーマをYAML形式に変換する">
         <variants>
